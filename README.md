@@ -1,2 +1,2 @@
 # Programa-Deteccion-OOPART-GCPDS
-Programa de detección y análisis del tráfico vehicular y peatonal
+![Portada](Images/portada_inicio_light.png)
