@@ -653,7 +653,6 @@ class App(customtkinter.CTk):
             source = check_file(source)  # download
 
         # Directories
-        print(project,end='\n==================================\n')
         save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
         (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
@@ -818,7 +817,7 @@ class App(customtkinter.CTk):
                             if ((datetime.datetime.now()-time_infe).total_seconds())>30:
                                 break
                             
-
+                        
                         if self.switch_frame == 0:
                             self.progressbar_inference_info_image.configure(text=('FPS: ' + str(round(frames_per_second,3)) + '\n' + 'Tiempo de inicio: ' + str(start_time.time())[:15 -7] + '\n' + 'Tiempo de inferencia: ' + str(int(inference_hours)) + ':' + str(int(inference_minutes)) + ':' + str(int(inference_seconds))))
                         elif self.switch_frame == 1:
@@ -832,7 +831,8 @@ class App(customtkinter.CTk):
                             self.progressbar_inference_video.configure(text=("PROGRESO:\n VIDEO(S): "+video_current+"/"+video_total))
                         else:
                             self.progressbar_inference_info_streaming.configure(text=('FPS: ' + str(round(frames_per_second,3)) + '\n' + 'Tiempo de inicio: ' + str(start_time.time())[:15 -7] + '\n' + 'Tiempo de inferencia: ' + str(int(inference_hours)) + ':' + str(int(inference_minutes)) + ':' + str(int(inference_seconds))))
-                        
+                        if os.path.isfile('im0.jpg'):
+                            os.remove('im0.jpg')
                         cv2.imwrite('im0.jpg',im0)
                         cv2.waitKey(0)
                         im0_path = str(ROOT)
@@ -966,12 +966,11 @@ class App(customtkinter.CTk):
     def inference_func(self):
         self.opt_1 = self.parse_opt()
         check_requirements(exclude=('tensorboard', 'thop'))
-        #print(opt)
         self.run()
 
     def infographic_func(self):
     
-        print('\n==================================\n',end='Iniciando infografía')
+        print('\n================================== \nIniciando infografía')
         if self.switch_frame == 0:
             exp_folders = [carpeta for carpeta in os.listdir(self.image_select_folder) if carpeta.startswith("exp")]
             exp_folders.sort(reverse=True)
@@ -993,9 +992,6 @@ class App(customtkinter.CTk):
                 dir = str(self.streaming_select_folder) + '/' + str(exp_folders[0]) + '/labels/'
             else:
                 pass
-        #rootdir=os.listdir(dir)
-        #rootdir.sort(key=lambda s: int(s.split('.txt')[0][-1]))
-        #print(rootdir)
         rootdir = [file for root, dirs, files in os.walk(dir) for file in files if file.endswith('.txt')]
         rootdir.sort(key=lambda s: int(os.path.splitext(s)[0][-1]) if os.path.splitext(s)[0][-1].isdigit() else 0)
         newdf=pd.DataFrame()
@@ -1075,7 +1071,7 @@ class App(customtkinter.CTk):
             if k == 27:
                 break
         cv2.destroyAllWindows()
-	print('Infografía finalizada',end='\n==================================\n')
+        print('Infografía finalizada \n==================================')
         
 
 if __name__ == "__main__":
