@@ -971,7 +971,7 @@ class App(customtkinter.CTk):
 
     def infographic_func(self):
     
-        
+        print('\n==================================\n',end='Iniciando infografía')
         if self.switch_frame == 0:
             exp_folders = [carpeta for carpeta in os.listdir(self.image_select_folder) if carpeta.startswith("exp")]
             exp_folders.sort(reverse=True)
@@ -1075,6 +1075,7 @@ class App(customtkinter.CTk):
             if k == 27:
                 break
         cv2.destroyAllWindows()
+	print('Infografía finalizada',end='\n==================================\n')
         
 
 if __name__ == "__main__":
